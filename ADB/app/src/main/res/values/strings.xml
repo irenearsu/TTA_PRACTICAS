@@ -13,4 +13,21 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="menu_test">"NUEVO TEST"</string>
+    <string name="menu_ejercicio">"NUEVO EJERCICIO"</string>
+    <string name="menu_seguimiento">"SEGUIMIENTO"</string>
+    <string name="button_send">"ENVIAR"</string>
+
+    <string name="subir_fichero">"SUBIR_FICHERO"</string>
+    <string name="sacar_foto">"SACAR_FOTO"</string>
+    <string name="grabar_audio">"GRABAR AUDIO"</string>
+    <string name="grabar_video">"GRABAR VIDEO"</string>
+
+    <string name="login_usuario">"Usuario"</string>
+    <string name="login_DNI">"Introduce DNI"</string>
+
+    <string name="login_password">"Contraseña"</string>
+    <string name="login_pass">"Introduce password"</string>
+
+
 </resources>
