@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Presentacion.MainActivity" />
-        <activity android:name=".Presentacion.TESTActivity" />
+        <activity android:name=".Presentacion.TestActivity" />
         <activity android:name=".Presentacion.EjercicioActivity"></activity>
     </application>
 

@@ -29,5 +29,6 @@
     <string name="login_password">"Contraseña"</string>
     <string name="login_pass">"Introduce password"</string>
 
+    <string name="login_access">"ACCEDER"</string>
 
 </resources>

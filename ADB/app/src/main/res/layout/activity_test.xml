@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="eus.ehu.adibidea.tta.adb.Presentacion.TESTActivity">
+    tools:context="eus.ehu.adibidea.tta.adb.Presentacion.TestActivity">
 
         <TextView
             android:id="@+id/test"
