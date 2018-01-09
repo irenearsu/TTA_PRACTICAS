@@ -25,6 +25,9 @@ public class TestExample implements TestInterface{
         testa.aukerak.add("Nombre del paquete java de la aplicación");
         testa.zuzena=3;
 
+        testa.adviceType="audio";
+        testa.advice="http://u017633.ehu.eus:28080/static/ServidorTta/AndroidManifest.mp4";
+
         return testa;
     }
 }

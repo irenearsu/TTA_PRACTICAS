@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/test_activity"
     tools:context="eus.ehu.adibidea.tta.adb.Presentacion.TestActivity">
 
         <TextView
@@ -31,6 +32,14 @@
             android:onClick="send"
             android:visibility="invisible"
             android:text="@string/button_send"/>
+
+        <Button
+            android:id="@+id/button_send_advice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ayuda"
+            android:visibility="gone"
+            android:text="@string/button_advice"/>
 
 
 </LinearLayout>

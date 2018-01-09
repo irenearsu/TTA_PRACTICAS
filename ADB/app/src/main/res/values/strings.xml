@@ -17,6 +17,7 @@
     <string name="menu_ejercicio">"NUEVO EJERCICIO"</string>
     <string name="menu_seguimiento">"SEGUIMIENTO"</string>
     <string name="button_send">"ENVIAR"</string>
+    <string name="button_advice">VER AYUDA</string>
 
     <string name="subir_fichero">"SUBIR_FICHERO"</string>
     <string name="sacar_foto">"SACAR_FOTO"</string>

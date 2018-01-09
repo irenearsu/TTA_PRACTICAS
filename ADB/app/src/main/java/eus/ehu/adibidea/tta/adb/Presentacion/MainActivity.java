@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void ejercicio(View view){
-        Intent intent = new Intent(this,TestActivity.class);
+        Intent intent = new Intent(this,EjercicioActivity.class);
         startActivity(intent);
     }
 

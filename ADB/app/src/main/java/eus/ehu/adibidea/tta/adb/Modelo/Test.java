@@ -15,6 +15,9 @@ public class Test{
     public String galdera;
     public int zuzena;
 
+    public String adviceType;
+    public String advice;
+
     public Test(){
 
         aukerak = new ArrayList<String>();
