@@ -31,5 +31,9 @@
     <string name="login_pass">"Introduce password"</string>
 
     <string name="login_access">"ACCEDER"</string>
+    
+    <string name="no_camera">Es necesario tener una camara en el movil para sacar una foto</string>
+    <string name="no_micro">Es necesario tener un microfono en el movil para grabar un audio</string>
+
 
 </resources>
