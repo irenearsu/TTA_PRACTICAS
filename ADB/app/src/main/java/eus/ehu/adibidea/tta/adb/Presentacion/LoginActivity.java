@@ -6,9 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import java.io.IOException;
+
+import eus.ehu.adibidea.tta.adb.Modelo.ProgressTask;
+import eus.ehu.adibidea.tta.adb.Modelo.RestClient;
+import eus.ehu.adibidea.tta.adb.Modelo.Server;
+import eus.ehu.adibidea.tta.adb.Modelo.User;
 import eus.ehu.adibidea.tta.adb.R;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private Server server = new Server();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,18 +27,35 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    protected void login(View view){
-        Intent intent = new Intent(this,MainActivity.class);
-        String login = ((EditText)findViewById(R.id.login)).getText().toString();
-        String passwd = ((EditText)findViewById(R.id.password)).getText().toString();
-        if(authenticate(login,passwd)){
-            intent.putExtra(MainActivity.EXTRA_LOGIN,login);
-            startActivity(intent);
-        }
+    public void login(View view) throws IOException{
+        final Intent intent = new Intent(this,MainActivity.class);
+        final String login = ((EditText)findViewById(R.id.login)).getText().toString();
+        final String passwd = ((EditText)findViewById(R.id.password)).getText().toString();
+
+        new ProgressTask<User>(this){
+            @Override
+            protected User work() throws Exception{
+                server.getRc().setHttpBasicAuth(login,passwd);
+                return server.getUser(login);
+
+            }
+
+            @Override
+            protected void onFinish(User user){
+
+                Intent input = new Intent(getApplicationContext(),MainActivity.class);
+                input.putExtra(MainActivity.EXTRA_LOGIN,login);
+                input.putExtra(MainActivity.EXTRA_USER,user.getUser());
+                input.putExtra(MainActivity.EXTRA_LESSONTITLE,user.getLessonTitle());
+                input.putExtra(MainActivity.EXTRA_PASSWORD,passwd);
+                input.putExtra(MainActivity.EXTRA_LESSONNUMBER,Integer.toString(user.getLessonNumber()));
+                startActivity(intent);
+
+            }
+        }.execute();
+
+
     }
 
-    protected boolean authenticate(String login,String password){
-        return true;
-    }
 }
 

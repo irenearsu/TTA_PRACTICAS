@@ -1,5 +1,7 @@
 package eus.ehu.adibidea.tta.adb.Business;
 
+import org.json.JSONObject;
+
 import eus.ehu.adibidea.tta.adb.Modelo.Test;
 
 /**
@@ -29,5 +31,11 @@ public class TestExample implements TestInterface{
         testa.advice="http://u017633.ehu.eus:28080/static/ServidorTta/AndroidManifest.mp4";
 
         return testa;
+
+        /*try{
+            Test test = new Test();
+            JSONObject json = new JSONObject(bundle.getString(EXTRA_TEST));
+
+        }*/
     }
 }

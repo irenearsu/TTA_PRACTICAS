@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,9 @@ public class EjercicioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ejercicio);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
     }
 
     protected void fichero(View biew){
@@ -37,7 +41,7 @@ public class EjercicioActivity extends AppCompatActivity {
 
     }
 
-    protected void foto (View view){
+    public void foto (View view){
 
         if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
             Toast.makeText(this,R.string.no_camera,Toast.LENGTH_SHORT).show();
@@ -60,7 +64,7 @@ public class EjercicioActivity extends AppCompatActivity {
         }
     }
 
-    protected void rec_video(View view){
+    public void rec_video(View view){
         if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA))
             Toast.makeText(this,R.string.no_camera,Toast.LENGTH_SHORT).show();
         else{
@@ -72,7 +76,7 @@ public class EjercicioActivity extends AppCompatActivity {
         }
     }
 
-    protected  void rec_audio(View view){
+    public  void rec_audio(View view){
         if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE))
             Toast.makeText(this,R.string.no_micro,Toast.LENGTH_SHORT).show();
         else{
@@ -90,7 +94,14 @@ public class EjercicioActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        startActivityForResult(intent,READ_REQUEST_CODE);
+
+        if(intent.resolveActivity(getPackageManager()) !=null){
+            startActivityForResult(intent,READ_REQUEST_CODE);
+
+        }
+        else{
+            Toast.makeText(this,R.string.no_micro,Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
