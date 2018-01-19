@@ -1,5 +1,6 @@
 package eus.ehu.adibidea.tta.adb.Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,27 +12,87 @@ import eus.ehu.adibidea.tta.adb.Business.TestInterface;
 
 public class Test{
 
-    public List<String> aukerak;
-    public String galdera;
+    private List<Choices> choices;
+    private String wording;
+
+
     public int zuzena;
 
-    public String adviceType;
-    public String advice;
+
 
     public Test(){
 
-        aukerak = new ArrayList<String>();
+        choices = new ArrayList<Choices>();
 
     }
 
-    public String getGaldera(){
+    public String getWording(){
 
-        return galdera;
+        return wording;
     }
 
-    public List<String> getAukerak(){
-
-        return aukerak;
+    public void setWording(String wording){
+        this.wording=wording;
     }
+
+    public List<Choices> getChoices(){
+
+        return choices;
+    }
+
+    public void setChoices(List<Choices> choices){
+        this.choices=choices;
+    }
+
+    public static class Choices implements Serializable{
+
+        private String answer;
+        private int id;
+        private String advice;
+        private boolean correct;
+        private String mime;
+
+        public boolean isCorrect() {
+            return correct;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getAnswer() {
+            return answer;
+        }
+
+        public void setAnswer(String answer) {
+            this.answer = answer;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getAdvice() {
+            return advice;
+        }
+
+        public String getMime() {
+            return mime;
+        }
+
+        public void setAdvice(String advice) {
+            this.advice = advice;
+        }
+
+        public void setCorrect(boolean correct) {
+            this.correct = correct;
+        }
+
+        public void setMime(String mime) {
+            this.mime = mime;
+        }
+    }
+
+
 
 }

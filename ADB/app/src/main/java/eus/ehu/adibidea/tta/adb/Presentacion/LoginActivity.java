@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) throws IOException{
-        final Intent intent = new Intent(this,MainActivity.class);
+        //final Intent intent = new Intent(this,MainActivity.class);
         final String login = ((EditText)findViewById(R.id.login)).getText().toString();
         final String passwd = ((EditText)findViewById(R.id.password)).getText().toString();
 
@@ -48,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
                 input.putExtra(MainActivity.EXTRA_USER,user.getUser());
                 input.putExtra(MainActivity.EXTRA_LESSONTITLE,user.getLessonTitle());
                 input.putExtra(MainActivity.EXTRA_PASSWORD,passwd);
-                input.putExtra(MainActivity.EXTRA_LESSONNUMBER,Integer.toString(user.getLessonNumber()));
-                startActivity(intent);
+                input.putExtra(MainActivity.EXTRA_LESSONNUMBER,user.getLessonNumber());
+                startActivity(input);
 
             }
         }.execute();

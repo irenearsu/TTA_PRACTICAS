@@ -3,7 +3,6 @@ package eus.ehu.adibidea.tta.adb.Presentacion;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,12 +19,8 @@ import android.widget.VideoView;
 
 import java.io.IOException;
 
-import eus.ehu.adibidea.tta.adb.Business.TestExample;
 import eus.ehu.adibidea.tta.adb.Modelo.*;
 import eus.ehu.adibidea.tta.adb.R;
-
-import static android.R.attr.checked;
-import static android.R.attr.checkedButton;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -33,29 +28,62 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     public int selected;
     RadioGroup group;
 
-    TestExample data = new TestExample();
-    Test test = data.getTest();
+    Server server = new Server();
+    Test test = new Test();
+
+
+    public final static String LOGIN_EXTRA = "LOGIN";
+    public final static String PASSWORD_EXTRA = "PASSWORD";
+
+    public String LOGIN = "";
+    public String PASSWORD = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
 
-        TextView textWording = (TextView)findViewById(R.id.test);
-        textWording.setText(test.getGaldera());
-        group = (RadioGroup)findViewById(R.id.test_choices);
-        int i=0;
-        for (String choice : test.getAukerak()){
-            RadioButton radio = new RadioButton(this);
-            radio.setText(choice);
-            radio.setId(i);
-            radio.setOnClickListener(this);
-            group.addView(radio);
-            if(test.zuzena == i)
-                correct = i;
-            i++;
-        }
+        LOGIN=getIntent().getStringExtra(LOGIN_EXTRA);
+        PASSWORD = getIntent().getStringExtra(PASSWORD_EXTRA);
+
+        final View.OnClickListener listenner = this;
+
+        new ProgressTask<Test>(this){
+            @Override
+            protected Test work() throws Exception{
+                server.getRc().setHttpBasicAuth(LOGIN,PASSWORD);
+                return server.getTest(1);
+            }
+
+            @Override
+            protected void onFinish(Test result){
+                TextView textWording = (TextView)findViewById(R.id.test);
+                textWording.setText(result.getWording());
+                group = (RadioGroup)findViewById(R.id.test_choices);
+                int i=0;
+                for (Test.Choices choice : result.getChoices()){
+                    RadioButton radio = new RadioButton(getApplicationContext());
+                    radio.setText(choice.getAnswer());
+                    radio.setId(i);
+                    radio.setOnClickListener(listenner);
+                    radio.setTextColor(Color.BLACK);
+                    group.addView(radio);
+                    if(choice.isCorrect())
+                        correct = i;
+                    i++;
+
+                }
+
+
+            }
+        }.execute();
+
+
+
+
 
         /*TextView textWording = (TextView)findViewById(R.id.test);
         textWording.setText("Galdera");
@@ -93,11 +121,13 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             group.getChildAt(selected).setBackgroundColor(Color.RED);
             Toast.makeText(getApplicationContext(), "¡Has fallado!", Toast.LENGTH_SHORT).show();
 
-            if(test.adviceType != null){
+            findViewById(R.id.button_send_advice).setVisibility(View.VISIBLE);
+
+            /*if(!= null){
 
                 findViewById(R.id.button_send_advice).setVisibility(View.VISIBLE);
 
-            }
+            }*/
 
         }
         else{
@@ -108,7 +138,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
     public void ayuda (View view){
 
-        switch(test.adviceType){
+        switch(test.getChoices().get(selected).getMime()){
 
             case "text/html":
                 showHtml();
@@ -127,14 +157,14 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void showHtml(){
-        if (test.advice.contains("://")){
-            Uri uri = Uri.parse(test.advice);
+        if (test.getChoices().get(selected).getAdvice().contains("://")){
+            Uri uri = Uri.parse(test.getChoices().get(selected).getAdvice());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }
         else{
             WebView web = new WebView(this);
-            web.loadData(test.advice,"text/html",null);
+            web.loadData(test.getChoices().get(selected).getAdvice(),"text/html",null);
             web.setBackgroundColor(Color.TRANSPARENT);
             web.setLayerType(WebView.LAYER_TYPE_SOFTWARE,null);
             ViewGroup layout = (ViewGroup)findViewById(R.id.test_activity);
@@ -145,7 +175,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     private void showVideo(){
 
         VideoView video = new VideoView(this);
-        video.setVideoURI(Uri.parse(test.advice));
+        video.setVideoURI(Uri.parse(test.getChoices().get(selected).getAdvice()));
         WebView view = new WebView(this);
 
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
@@ -188,7 +218,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         view.setLayoutParams(params);
 
         try {
-            ap.setAudioUri(Uri.parse(test.advice));
+            ap.setAudioUri(Uri.parse(test.getChoices().get(selected).getAdvice()));
         } catch (IOException e) {
             e.printStackTrace();
         }
